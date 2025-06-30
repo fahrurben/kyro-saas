@@ -1,0 +1,1 @@
+Implementation of SAAS. Some approach inspired by this https://www.youtube.com/watch?v=BW9ju19u1zU&ab_channel=DjangoConUS
