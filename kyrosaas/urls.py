@@ -21,7 +21,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from rest_framework.routers import DefaultRouter
-from rest_framework_nested.routers import NestedSimpleRouter
+from rest_framework_nested.routers import NestedDefaultRouter
 
 from core.views import CompanyView
 from blog.views import PostView
@@ -30,7 +30,7 @@ from blog.views import PostView
 router = DefaultRouter(trailing_slash=False)
 router.register(r'companies', CompanyView, basename='companies')
 
-companies_router = NestedSimpleRouter(router, r'companies', lookup='company')
+companies_router = NestedDefaultRouter(router, r'companies', lookup='company')
 companies_router.register(r'posts', PostView)
 
 from core.views import RegisterView, CompanyView
