@@ -15,17 +15,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from rest_framework.routers import DefaultRouter
+from rest_framework_nested.routers import NestedSimpleRouter
 
-from core.views import RegisterView
+from core.views import CompanyView
+from blog.views import PostView
+
+# Create nested router
+router = DefaultRouter(trailing_slash=False)
+router.register(r'companies', CompanyView, basename='companies')
+
+companies_router = NestedSimpleRouter(router, r'companies', lookup='company')
+companies_router.register(r'posts', PostView)
+
+from core.views import RegisterView, CompanyView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/register', RegisterView.as_view(), name='register'),
     path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/', include(companies_router.urls)),
 ]
